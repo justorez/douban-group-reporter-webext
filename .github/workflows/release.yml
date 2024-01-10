@@ -52,7 +52,8 @@ jobs:
       - name: Build
         run: |
           pnpm run build
-          zip -r dist-v${{ steps.version.outputs.value }}.zip dist/*
+          cd dist
+          zip -r ../v${{ steps.version.outputs.value }}.zip *
 
       - name: Release
         uses: softprops/action-gh-release@v1
@@ -60,4 +61,4 @@ jobs:
           tag_name: v${{ steps.version.outputs.value }}
           name: v${{ steps.version.outputs.value }}
           draft: true
-          files: dist-v${{ steps.version.outputs.value }}.zip
+          files: v${{ steps.version.outputs.value }}.zip
