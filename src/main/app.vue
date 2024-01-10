@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import SDK, { Comment, Reason } from './sdk'
+import { getHeaderCookie } from '@/utils';
 
 let sdk: SDK
 let comments: Comment[] = [] // 当前页全部评论
@@ -39,7 +40,7 @@ async function init() {
     myReasonId.value = ''
 
     initBtnLoading.value = true
-    const cookies = (await chrome.storage.local.get('cookies')).cookies
+    const cookies = await getHeaderCookie()
     sdk = new SDK(url.value, cookies)
     const data = await sdk.init()
     initBtnLoading.value = false
