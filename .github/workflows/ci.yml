@@ -1,0 +1,32 @@
+name: build
+'on':
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read # to fetch code (actions/checkout)
+
+jobs:
+  lint_and_build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+
+      - name: Install node v20
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - run: pnpm install
+      - run: pnpm run lint
+      - run: pnpm run build
