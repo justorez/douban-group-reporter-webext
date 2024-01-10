@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "zip": "node scripts/zip.cjs",
     "lint": "eslint . --fix --ext js,mjs,cjs,ts,mts,cts,vue",
     "preview": "vite preview"
   },
@@ -30,6 +31,7 @@
     "@vitejs/plugin-vue": "^4.6.2",
     "@vue/compiler-sfc": "^3.4.6",
     "@vueuse/core": "^10.7.1",
+    "adm-zip": "^0.5.10",
     "autoprefixer": "^10.4.16",
     "chrome-types": "^0.1.248",
     "daisyui": "^4.5.0",
