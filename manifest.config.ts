@@ -18,10 +18,11 @@ export default defineManifest(async (env) => ({
   // semver is OK in "version_name"
   version_name: version,
   manifest_version: 3,
+  default_locale: 'zh_CN',
   icons: {
-    16: 'public/icons/200.png',
-    48: 'public/icons/200.png',
-    128: 'public/icons/200.png'
+    16: 'icons/200.png',
+    48: 'icons/200.png',
+    128: 'icons/200.png'
   },
   action: {
     default_popup: 'src/popup/index.html'
