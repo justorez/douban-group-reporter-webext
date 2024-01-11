@@ -27,13 +27,7 @@ export default defineManifest(async (env) => ({
   action: {
     default_popup: 'src/popup/index.html'
   },
-  host_permissions: [
-    '*://*.douban.com/*',
-  ],
-  permissions: [
-    'storage',
-    'cookies',
-    'activeTab'
-  ],
-  web_accessible_resources: [],
+  host_permissions: ['*://*.douban.com/*'],
+  permissions: ['storage', 'cookies', 'activeTab'],
+  web_accessible_resources: []
 }))
