@@ -13,9 +13,10 @@ createApp(App).mount('#app')
     if (tab && tab.url?.includes('douban.com/group/topic/')) {
       chrome.storage.local.set({ tabUrl: tab.url })
     }
-    window.open(
-      chrome.runtime.getURL('src/main/index.html')
-    )
+    chrome.tabs.create({
+      active: true,
+      url: chrome.runtime.getURL('src/main/index.html')
+    })
   }
 })()
 

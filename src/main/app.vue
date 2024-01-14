@@ -119,124 +119,138 @@ async function submit() {
 }
 </script>
 
-<template id="tpl">
-    <!-- 帖子地址输入栏 -->
-    <div class="mb-5 flex w-1/2">
-        <input
-            v-model="url"
-            class="input-box"
-            type="text"
-            placeholder="请输入帖子地址"
-        />
-        <button
-            class="btn btn-success text-white ml-2"
-            :disabled="initBtnLoading"
-            @click="init"
-        >
-            <span v-show="initBtnLoading" class="loading loading-spinner"></span>
-            解析
-        </button>
-    </div>
-
-    <!-- 搜索和工具栏 -->
-    <Transition name="fade-down">
-        <div 
-            v-if="totalPage"
-            class="mb-5 flex w-1/2" 
-        >
+<template>
+    <div class="main w-full h-full m-auto flex flex-col items-center">
+        <!-- 帖子地址输入栏 -->
+        <div class="mb-5 flex">
             <input
-                v-model="keyword"
+                v-model="url"
                 class="input-box"
-                type="search"
-                placeholder="搜索用户和评论，多个关键字空格隔开"
-                title="多个关键字空格隔开，用户名全文匹配，评论模糊匹配"
+                type="text"
+                placeholder="请输入帖子地址"
             />
-            <select v-model="myReasonId" class="w-1/3 ml-2 opacity-100 rounded-md border-0 p-2 text-gray-600 outline-none ring-1 ring-inset ring-gray-300 focus:ring-green-500">
-                <option class="text-gray-400" value="" disabled selected>请选择举报原因</option>
-                <template v-for="reason in reasons">
-                    <optgroup v-if="reason.subs" :key="reason.name" :label="reason.name">
-                        <option 
-                            v-for="item in reason.subs"
-                            :key="item.id"
-                            :value="item.id"
-                        >{{ item.name }}</option>
-                    </optgroup>
-                    <option 
-                        v-else
-                        :key="reason.id"
-                        :value="reason.id"
-                    >{{ reason.name }}</option>
-                </template>
-            </select>
-            <button 
-                :id="progress.total ? 'reporting' : ''"
-                class="btn btn-success text-white w-1/4 ml-2"
-                @click="submit"
+            <button
+                class="btn btn-success text-white ml-2"
+                :disabled="initBtnLoading"
+                @click="init"
             >
-                {{ reportButtonText }}
-
-                <!-- 举报进度条 -->
-                <template v-if="progress.total">
-                    <span :style="{ width: progressPercent }"></span>
-                    <span>{{ `举报中：${progress.done}/${progress.total}` }}</span>
-                </template>
+                <span v-show="initBtnLoading" class="loading loading-spinner"></span>
+                解析
             </button>
         </div>
-    </Transition>
 
-    <!-- 分页 -->
-    <div class="w-1/2 mb-1">
-        <button
-            v-for="i in totalPage"
-            :key="i"
-            :title="`第${i}页`"
-            class="btn btn-sm btn-square mr-3 mb-3 text-gray-500"
-            :class="{'btn-success text-white': currentPage === i}"
-            @click="goPage(i)"
-        >
-            {{ i }}
-        </button>
-    </div>
-
-    <!-- 评论列表 -->
-    <div 
-        v-if="totalPage"
-        class="w-1/2 flex border-b border-black font-black pb-1"
-    >
-        <span class="w-1/4">用户名</span>
-        <span class="flex-1">评论内容</span>
-    </div>
-    <div class="w-1/2 pt-2 pb-5 flex-1 overflow-y-auto">
-        <div 
-            v-for="cmt in list" 
-            :key="cmt.id"
-            class="mb-1 flex"
-        >
-            <a 
-                class="text-green-600 hover:underline w-1/4 flex-shrink-0"
-                :href="cmt.profile" 
-                target="_blank"
+        <!-- 搜索和工具栏 -->
+        <Transition name="fade-down">
+            <div 
+                v-if="totalPage"
+                class="mb-5 flex" 
             >
-                {{ cmt.username }}
-            </a>
-            <span class="flex-1 text-gray-700">
-                <a 
-                    v-if="cmt.img" 
-                    :href="cmt.img" 
-                    target="_blank"
-                    class="text-blue-500 hover:underline mr-1"
+                <input
+                    v-model="keyword"
+                    class="input-box"
+                    type="search"
+                    placeholder="搜索用户和评论，多个关键字空格隔开"
+                    title="用户名请输入全文，评论可模糊搜索"
+                />
+                <select 
+                    v-model="myReasonId" 
+                    class="ml-2 opacity-100 rounded-md border-0 p-2 text-gray-600 outline-none ring-1 ring-inset ring-gray-300 focus:ring-green-500"
+                    style="width: 30%;"
                 >
-                    [ 点击查看评论图片 ]
+                    <option class="text-gray-400" value="" disabled selected>请选择举报原因</option>
+                    <template v-for="reason in reasons">
+                        <optgroup v-if="reason.subs" :key="reason.name" :label="reason.name">
+                            <option 
+                                v-for="item in reason.subs"
+                                :key="item.id"
+                                :value="item.id"
+                            >{{ item.name }}</option>
+                        </optgroup>
+                        <option 
+                            v-else
+                            :key="reason.id"
+                            :value="reason.id"
+                        >{{ reason.name }}</option>
+                    </template>
+                </select>
+                <button 
+                    :id="progress.total ? 'reporting' : ''"
+                    class="btn btn-success text-white w-1/4 ml-2"
+                    @click="submit"
+                >
+                    {{ reportButtonText }}
+
+                    <!-- 举报进度条 -->
+                    <template v-if="progress.total">
+                        <span :style="{ width: progressPercent }"></span>
+                        <span>{{ `举报中：${progress.done}/${progress.total}` }}</span>
+                    </template>
+                </button>
+            </div>
+        </Transition>
+
+        <!-- 分页 -->
+        <div class="mb-1">
+            <button
+                v-for="i in totalPage"
+                :key="i"
+                :title="`第${i}页`"
+                class="btn btn-sm btn-square mr-3 mb-3 text-gray-500"
+                :class="{'btn-success text-white': currentPage === i}"
+                @click="goPage(i)"
+            >
+                {{ i }}
+            </button>
+        </div>
+
+        <!-- 评论列表 -->
+        <div 
+            v-if="totalPage"
+            class="flex border-b border-black font-black pb-1"
+        >
+            <span class="w-1/4">用户名</span>
+            <span class="flex-1">评论内容</span>
+        </div>
+        <div class="pt-2 pb-5 flex-1 overflow-y-auto">
+            <div 
+                v-for="cmt in list" 
+                :key="cmt.id"
+                class="mb-1 flex"
+            >
+                <a 
+                    class="text-green-600 hover:underline w-1/4 flex-shrink-0"
+                    :href="cmt.profile" 
+                    target="_blank"
+                >
+                    {{ cmt.username }}
                 </a>
-                <span class="break-words">{{ cmt.content }}</span>
-            </span>
+                <span class="flex-1 text-gray-700">
+                    <a 
+                        v-if="cmt.img" 
+                        :href="cmt.img" 
+                        target="_blank"
+                        class="text-blue-500 hover:underline mr-1"
+                    >
+                        [ 点击查看评论图片 ]
+                    </a>
+                    <span class="break-words">{{ cmt.content }}</span>
+                </span>
+            </div>
         </div>
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
     .input-box {
-        @apply input input-bordered focus:outline-none flex-1 focus:border-green-500;
+        @apply input input-bordered flex-1 focus:outline-none focus:border-green-500;
+    }
+
+    .main {
+        max-width: 750px;
+
+        > div {
+            width: 100%;
+        }
     }
 
     .fade-down-enter-active,
@@ -254,19 +268,20 @@ async function submit() {
         border-color: #dcdde1;
         background-color: #dcdde1;
         overflow: hidden;
-    }
-    #reporting span:nth-child(1) {
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        z-index: 1;
-        background-color: #1cad70;
-        transition: all .5s;
-    }
-    #reporting span:nth-child(2) {
-        position: relative;
-        z-index: 5;
-        transition: all .5s;
+
+        span:nth-child(1) {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 1;
+            background-color: #1cad70;
+            transition: all .5s;
+        }
+        span:nth-child(2) {
+            position: relative;
+            z-index: 5;
+            transition: all .5s;
+        }
     }
 </style>
