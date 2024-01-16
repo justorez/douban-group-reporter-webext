@@ -16,7 +16,7 @@
 
 ## 安装
 
-Edge 扩展商店地址：[上架审核中](#)
+[Edge 扩展商店](https://microsoftedge.microsoft.com/addons/detail/%E8%B1%86%E7%93%A3%E5%B0%8F%E7%BB%84%E8%AF%84%E8%AE%BA%E4%B8%BE%E6%8A%A5%E5%B7%A5%E5%85%B7/hlhlkfcmlieombipnhpkceakaklhdfdf)
 
 ## 用法
 
