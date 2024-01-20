@@ -11,13 +11,15 @@ import Pages from 'vite-plugin-pages'
 // import VueDevTools from 'vite-plugin-vue-devtools'
 import manifest from './manifest.config'
 
+const resolve = (p: string) => fileURLToPath(new URL(p, import.meta.url))
+
 // https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-      '~': fileURLToPath(new URL('./src', import.meta.url)),
-      src: fileURLToPath(new URL('./src', import.meta.url))
+      '@': resolve('./src'),
+      '~': resolve('./src'),
+      src: resolve('./src')
     }
   },
   plugins: [

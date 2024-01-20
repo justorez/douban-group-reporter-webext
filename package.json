@@ -7,10 +7,10 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm clean && vite",
-    "build": "pnpm clean && vite build",
-    "lint": "eslint . --fix --ext js,mjs,cjs,ts,mts,cts,vue",
+    "build": "pnpm clean && vite build && pnpm zip",
     "clean": "node scripts/clean.cjs",
     "zip": "node scripts/zip.cjs",
+    "lint": "eslint . --fix --ext js,mjs,cjs,ts,mts,cts,vue",
     "preview": "vite preview"
   },
   "dependencies": {

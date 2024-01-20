@@ -46,14 +46,14 @@ jobs:
         run: echo "VERSION=v$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
       - name: Build
-        run: |
-          pnpm run build
-          cd dist
-          zip -r ../${{ env.VERSION }}.zip *
+        run: pnpm run build
+
+        # cd dist
+        # zip -r ../${{ env.VERSION }}.zip *
 
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           draft: true
           tag_name: ${{ env.VERSION }}
-          files: ${{ env.VERSION }}.zip
+          files: dist/${{ env.VERSION }}.zip
